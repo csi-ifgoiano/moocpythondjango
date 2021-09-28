@@ -6,8 +6,12 @@
                         {% csrf_token %}
                         <div class="pure-control-group">
                             <div class="pure-u-1 pure-u-md-1-3">
-                                <label for="nome_receita"><b>Usuário</b></label>
+                                <label for="usuario"><b>Usuário</b></label>
                                 <input type="text" class="pure-u-23-24" name="nome" placeholder="usuário" required>
+                            </div>
+                            <div class="pure-u-1 pure-u-md-1-3">
+                                <label for="cpf"><b>CPF</b></label>
+                                <input type="text" class="pure-u-23-24" name="cpf" placeholder="000.000.000-00" required>
                             </div>
                             <div class="pure-u-1 pure-u-md-1-3">
                                 <label for="email"><b>Email</b></label>
@@ -16,10 +20,6 @@
                             <div class="pure-u-1 pure-u-md-1-3">
                                 <label for="password"><b>Senha</b></label>
                                 <input type="password" class="pure-u-23-24" name="password" placeholder="Digite sua senha" required>
-                            </div>
-                            <div class="pure-u-1 pure-u-md-1-3">
-                                <label for="password2"><b>Confirmação de senha</b></label>
-                                <input type="password" class="pure-u-23-24" name="password2" placeholder="Repita a Senha" required>
                             </div>
                             <div class="pure-controls">
                             <div class="pure-u-1-3 text-center">
