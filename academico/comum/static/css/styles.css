@@ -66,10 +66,20 @@ body .primary-button {
     display: inline;
     font-weight: normal;
 }
+
+.conteudo {
+    position: relative;
+    top: 80px;
+    display: flex;
+    justify-content: center;
+}
 .footer {
+    position: fixed;
+    bottom: 0;
     background: #111;
     color: #666;
     text-align: center;
     padding: 1em;
     font-size: 80%;
+
 }
