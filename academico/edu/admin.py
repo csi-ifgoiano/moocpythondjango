@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
-from .forms import CursoForm
+from .forms import CursoForm, AlunoMatriculaForm
 from .models import (
-    Curso
+    Curso,
+    AlunoMatricula
 )
 # Register your models here.
 class CursoAdmin(admin.ModelAdmin):
@@ -45,3 +46,13 @@ class CursoAdmin(admin.ModelAdmin):
         return HttpResponseRedirect('/edu/curso/{}/'.format(obj.pk))
 
 admin.site.register(Curso, CursoAdmin)
+
+class AlunoAdmin(admin.ModelAdmin):
+    list_display = ('matricula', 'curso')
+    list_filter = ('matricula', 'curso')
+    search_fields = ('matricula', 'curso')
+    list_per_page = 15
+    form = AlunoMatriculaForm
+    fieldsets = AlunoMatriculaForm.fieldsets
+
+admin.site.register(AlunoMatricula, AlunoAdmin)

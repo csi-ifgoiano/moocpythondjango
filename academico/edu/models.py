@@ -45,11 +45,12 @@ class Curso(models.Model):
 
 
 
-class Aluno(models.Model):
+class AlunoMatricula(models.Model):
     ESTADO_CIVIL_CHOICES = [['Solteiro', 'Solteiro'], ['Casado', 'Casado'], ['União Estável', 'União Estável'], ['Divorciado', 'Divorciado'], ['Viúvo', 'Viúvo']]
     PERIODO_LETIVO_CHOICES = [[1, '1'], [2, '2']]
 
     # Dados Pessoais
+    pessoa_fisica = models.ForeignKey('comum.Aluno', verbose_name='Aluno', related_name='aluno_edu_set', on_delete=models.CASCADE)
     matricula = models.CharField('Matrícula', max_length=255, db_index=True)
     estado_civil = models.CharField(choices=ESTADO_CIVIL_CHOICES, null=True, max_length=20)
     # endereco
@@ -64,8 +65,7 @@ class Aluno(models.Model):
     nome_mae = models.CharField(max_length=255, verbose_name='Nome do Pai', null=True, blank=True)
     responsavel = models.CharField(max_length=255, verbose_name='Nome do Responsável', null=True, blank=True)
     # contato
-    telefone_principal = models.CharField(max_length=255, verbose_name='Telefone Principal', null=True, blank=True)
-    telefone_secundario = models.CharField(max_length=255, verbose_name='Telefone Secundário', null=True, blank=True)
+    telefone_secundario = models.CharField(max_length=15, verbose_name='Telefone Secundário', null=True, blank=True)
     facebook = models.URLField('Facebook', blank=True, null=True)
     instagram = models.URLField('Instagram', blank=True, null=True)
     twitter = models.URLField('Twitter', blank=True, null=True)
@@ -75,16 +75,17 @@ class Aluno(models.Model):
     # dados da matrícula
     periodo_letivo = models.PositiveIntegerField(verbose_name='Período de Ingresso', choices=PERIODO_LETIVO_CHOICES)
     data_matricula = models.DateTimeField(verbose_name='Data da Matrícula', auto_now_add=True)
+    curso = models.ForeignKey('edu.Curso', verbose_name='Curso', related_name='matricula_edu_set', on_delete=models.CASCADE, null=False, blank=False)
 
 
     # TODO
     #foto = ImageWithThumbsField(storage=OverwriteStorage(), use_id_for_name=True, upload_to='alunos', sizes=((75, 100), (150, 200)), null=True, blank=True) /%d/%m/%Y'
-    #pessoa_fisica = models.ForeignKey('comum.PessoaFisica', verbose_name='Pessoa Física', related_name='aluno_edu_set')
     #ano_letivo = models.ForeignKey('comum.Ano', verbose_name='Ano de Ingresso', on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = 'Aluno'
-        verbose_name_plural = 'Alunos'
-        ordering = ('-matricula',)
+        verbose_name = 'Matricula de Aluno'
+        verbose_name_plural = 'Matriculas de Alunos'
         app_label = 'edu'
 
+    def get_nome(self):
+        return self.pessoa_fisica.nome
