@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% for curso in cursos %}
     <div class="splash">
         <div class="pure-g-r">
             <div class="pure-u-2-3">
@@ -9,12 +8,15 @@
                     <h1 class="splash-head">
                         {{curso.descricao}}
                     </h1>
-                    <h4 class="content-subhead">{{curso.ch_total}} horas</h4>
                     <h2 class="splash-subhead">
-                        {{curso.conteudo}}
+                        {{curso.conteudo|linebreaksbr}}
                     </h2>
+                    <h4 class="viewlink">Aula com {{curso.tipo_hora_aula|linebreaksbr}} minutos</h4>
+                    <h4 class="viewlink">Média para aprovação {{curso.media_aprovacao|linebreaksbr}}</h4>
+                    <h4 class="viewlink"><a target="_blank" href="{{curso.ppc|linebreaksbr}}">PPC</a> </h4>
+                    <h4 class="content-subhead">{{curso.ch_total}} horas</h4>
                     <p>
-                        <a href="#" class="pure-button primary-button">Saiba mais</a>
+                        <a href="{% url 'listar_cursos' %}" class="pure-button primary-button">Voltar</a>
                     </p>
                 </div>
             </div>
@@ -24,19 +26,6 @@
                          alt="Curso.">
                 </div>
             </div>
-        </div>
-    </div>
-{% endfor %}
-
-<div class="content">
-    <div class="pure-g-r content-ribbon">
-        <div class="pure-u-1">
-            <h1></h1>
-            <p>Conheça nossos curso, você poderá ainda entrar em contato conosco por e-mail, abaixo seguem os links para contato com o coordenador de curso.:</p>
-            <h4>Links</h4>
-            <ul>
-                <li>E-mail: <a href="#">faleconsco@faleconosco</a></li>
-            </ul>
         </div>
     </div>
 {% endblock %}

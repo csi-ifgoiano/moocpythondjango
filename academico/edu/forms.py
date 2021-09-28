@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from .models import Curso
 from django import forms
+#from djtools.forms.wizard import FormWizard
 
 class CursoForm(forms.ModelForm):
     class Meta:
@@ -13,3 +14,6 @@ class CursoForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         curso_campus = super(CursoForm, self).save(*args, **kwargs)
         return curso_campus
+
+class EfetuarMatricula(forms.ModelForm):
+    pass

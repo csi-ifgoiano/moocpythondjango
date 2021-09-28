@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+#from djtools.thumbs import ImageWithThumbsField
+#from djtools.utils import OverwriteStorage
 #from comum.models import
 
 # Create your models here.
@@ -23,6 +25,7 @@ class Curso(models.Model):
     media_aprovacao = models.DecimalField('Média para aprovação', null=True, blank=True, help_text='Valor entre 0 e 10.',
                           decimal_places=2, max_digits=5, validators=[MinValueValidator(Decimal(0)), MaxValueValidator(Decimal(10))])
     conteudo = models.CharField(verbose_name='Conteúdo', max_length=500, null=True, blank=True)
+
     #TODO
     #cadastrar coordenador
     #coordenador = models.ForeignKey('comum.Pessoas', null=True, blank=True)
@@ -38,3 +41,50 @@ class Curso(models.Model):
     def __str__(self):
         codigo = self.codigo.replace('-', '')
         return '{} - {}'.format(codigo, self.descricao)
+
+
+
+
+class Aluno(models.Model):
+    ESTADO_CIVIL_CHOICES = [['Solteiro', 'Solteiro'], ['Casado', 'Casado'], ['União Estável', 'União Estável'], ['Divorciado', 'Divorciado'], ['Viúvo', 'Viúvo']]
+    PERIODO_LETIVO_CHOICES = [[1, '1'], [2, '2']]
+
+    # Dados Pessoais
+    matricula = models.CharField('Matrícula', max_length=255, db_index=True)
+    estado_civil = models.CharField(choices=ESTADO_CIVIL_CHOICES, null=True, max_length=20)
+    # endereco
+    logradouro = models.CharField(max_length=255, verbose_name='Logradouro', null=True)
+    numero = models.CharField(max_length=255, verbose_name='Número', null=True)
+    complemento = models.CharField(max_length=255, verbose_name='Complemento', null=True, blank=True)
+    bairro = models.CharField(max_length=255, verbose_name='Bairro', null=True)
+    cep = models.CharField(max_length=255, verbose_name='CEP', null=True, blank=True)
+    cidade = models.CharField(max_length=255, verbose_name='Cidade', null=True)
+    # dados familiares
+    nome_pai = models.CharField(max_length=255, verbose_name='Nome do Pai', null=True, blank=True)
+    nome_mae = models.CharField(max_length=255, verbose_name='Nome do Pai', null=True, blank=True)
+    responsavel = models.CharField(max_length=255, verbose_name='Nome do Responsável', null=True, blank=True)
+    # contato
+    telefone_principal = models.CharField(max_length=255, verbose_name='Telefone Principal', null=True, blank=True)
+    telefone_secundario = models.CharField(max_length=255, verbose_name='Telefone Secundário', null=True, blank=True)
+    facebook = models.URLField('Facebook', blank=True, null=True)
+    instagram = models.URLField('Instagram', blank=True, null=True)
+    twitter = models.URLField('Twitter', blank=True, null=True)
+    # rg
+    numero_rg = models.CharField(max_length=255, verbose_name='Número do RG', null=True, blank=True)
+    uf_emissao_rg = models.CharField(max_length=255, verbose_name='Estado Emissor', null=True, blank=True)
+    # dados da matrícula
+    periodo_letivo = models.PositiveIntegerField(verbose_name='Período de Ingresso', choices=PERIODO_LETIVO_CHOICES)
+    data_matricula = models.DateTimeField(verbose_name='Data da Matrícula', auto_now_add=True)
+
+
+    # TODO
+    #foto = ImageWithThumbsField(storage=OverwriteStorage(), use_id_for_name=True, upload_to='alunos', sizes=((75, 100), (150, 200)), null=True, blank=True) /%d/%m/%Y'
+    #pessoa_fisica = models.ForeignKey('comum.PessoaFisica', verbose_name='Pessoa Física', related_name='aluno_edu_set')
+    #ano_letivo = models.ForeignKey('comum.Ano', verbose_name='Ano de Ingresso', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Aluno'
+        verbose_name_plural = 'Alunos'
+        ordering = ('-matricula',)
+        app_label = 'edu'
+
