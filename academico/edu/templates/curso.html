@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for curso in cursos %}
+    <div class="splash">
+        <div class="pure-g-r">
+            <div class="pure-u-2-3">
+                <div class="l-box splash-text">
+                    <h1 class="splash-head">
+                        {{curso.descricao}}
+                    </h1>
+                    <h4 class="content-subhead">{{curso.ch_total}} horas</h4>
+                    <h2 class="splash-subhead">
+                        {{curso.conteudo}}
+                    </h2>
+                    <p>
+                        <a href="#" class="pure-button primary-button">Saiba mais</a>
+                    </p>
+                </div>
+            </div>
+            <div class="pure-u-1-3">
+                <div class="l-box">
+                    <img src="http://placehold.it/400x250"
+                         alt="Curso.">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+<div class="content">
+    <div class="pure-g-r content-ribbon">
+        <div class="pure-u-1">
+            <h1></h1>
+            <p>Conheça nossos curso, você poderá ainda entrar em contato conosco por e-mail, abaixo seguem os links para contato com o coordenador de curso.:</p>
+            <h4>Links</h4>
+            <ul>
+                <li>E-mail: <a href="#">faleconsco@faleconosco</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

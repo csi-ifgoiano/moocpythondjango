@@ -22,9 +22,12 @@ class Curso(models.Model):
     periodicidade = models.PositiveIntegerField('Periodicidade', choices=PERIODICIDADE_CHOICES, null=True)
     media_aprovacao = models.DecimalField('Média para aprovação', null=True, blank=True, help_text='Valor entre 0 e 10.',
                           decimal_places=2, max_digits=5, validators=[MinValueValidator(Decimal(0)), MaxValueValidator(Decimal(10))])
+    conteudo = models.CharField(verbose_name='Conteúdo', max_length=500, null=True, blank=True)
     #TODO
     #cadastrar coordenador
-    #coordenador = models.ForeignKeyPlus('comum.Pessoas', null=True, blank=True)
+    #coordenador = models.ForeignKey('comum.Pessoas', null=True, blank=True)
+    #cadastrar ano
+    #ano_letivo = models.ForeignKey('comum.Ano', verbose_name='Ano letivo', related_name='cursos_por_ano_letivo_set', null=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Curso'

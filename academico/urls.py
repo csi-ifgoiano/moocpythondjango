@@ -20,7 +20,7 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('comum.urls')),
-    path('', include('edu.urls')),
+    path('edu/', include('edu.urls')),
 ]
 #path('', comum_views.home),
 #     re_path(r'^admin/', include('admin.site.urls', 'admin'), namespace='admin'),
