@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from .models import Curso, AlunoMatricula
 from comum.models import Aluno
@@ -15,13 +15,17 @@ def cursos_detail(request, pk):
     curso = get_object_or_404(Curso, pk=pk)
     return render(request, 'curso.html', {'curso': curso})
 
-def efetuar_matricula(request, aluno_id=None):
-    title = 'Matrícula Institucional'
-    candidato_vaga = None
-    initial = None
-    alunos = AlunoMatricula.objects.none()
-    cpf = request.POST.get('cpf')
-    form = AlunoMatriculaForm(request, cpf, data=request.POST or None, initial=initial, files=request.FILES or None)
-    if form.is_valid():
-        aluno = form.processar()
-        return HttpResponse("Dados inseridos com sucesso!")
+def efetuar_matricula(request):
+    form = AlunoMatriculaForm()
+    return render(request, 'matricula.html', {'form':form})
+# def efetuar_matricula(request):
+#     title = 'Matrícula Institucional'
+#     #curso = get_object_or_404(Curso, pk=curso_id)
+#     alunos = AlunoMatricula.objects.none()
+#     cpf = request.POST.get('cpf')
+#     request.POST.get('')
+#     form = AlunoMatriculaForm(data=request.POST or None)
+#     if form.is_valid():
+#         aluno = form.processar()
+#         return redirect('Aluno com cpf {} matriculado com sucesso!'.format(aluno.cpf))
+#     return locals()
