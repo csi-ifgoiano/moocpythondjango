@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from comum.models import Aluno
+from comum.forms import EditPerfilForm, EditAlunoForm
 
-def index(request):
+
+def home(request):
     return render(request,'home.html')
 
 def cadastro(request):
@@ -42,7 +45,7 @@ def cadastro(request):
 def login(request):
     if request.method == 'POST':
         email = request.POST['email']
-        senha = request.POST['senha']
+        senha = request.POST['password']
         if campo_vazio(email) or campo_vazio(senha):
             messages.error(request,'Os campos email e senha não podem ficar em branco')
             return redirect('login')
@@ -51,15 +54,41 @@ def login(request):
             user = auth.authenticate(request, username=nome, password=senha)
             if user is not None:
                 auth.login(request, user)
-                return redirect('dashboard')
+                return redirect('home')
+        else:
+            messages.error(request, 'Usuário não encontrado')
     return render(request, 'login.html')
 
 def logout(request):
     auth.logout(request)
-    return redirect('index')
+    return redirect('home')
 
 def campo_vazio(campo):
     return not campo.strip()
 
 def senhas_nao_sao_iguais(senha, senha2):
     return senha != senha2
+
+@login_required
+def edit_perfil(request):
+    if request.method == 'POST':
+        form = EditPerfilForm(request.POST, instance=request.user)
+        aluno_form = EditAlunoForm(request.POST, instance=request.user.aluno)
+
+        if form.is_valid() and aluno_form.is_valid():
+            user_form = form.save()
+            aluno_perfil_form = aluno_form.save(False)
+            aluno_perfil_form.user = user_form
+            aluno_perfil_form.save()
+            return redirect('ver_perfil')
+    else:
+        form = EditPerfilForm(instance=request.user)
+        aluno_form = EditAlunoForm(instance=request.user.aluno)
+        args = {}
+        args['form'] = form
+        args['aluno_form'] = aluno_form
+        return render(request, 'editar_perfil.html', args)
+
+@login_required
+def ver_perfil(request):
+    return render(request, 'ver_perfil.html')

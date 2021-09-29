@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Acadêmico - Uma plataforma de registro acadêmico" />
-    <title>Acadêmico</title>
+    {% block head %}
+        <title>Acadêmico</title>
+    {% endblock %}
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 </head>
@@ -13,10 +15,17 @@
 <div class="header">
     <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
         <a class="pure-menu-heading" href="#">Acadêmico</a>
-        <ul>
+        <ul class="pure-menu-list">
             <li class="pure-menu-selected"><a href="#">Início</a></li>
-            <li><a href="#">Matricule-se</a></li>
-            <li><a href="#">Cursos</a></li>
+            <li class="pure-menu-item"><a href="#">Matricule-se</a></li>
+            <li class="pure-menu-item"><a href="#">Cursos</a></li>
+            {% if not user.is_authenticated %}
+                <li class="pure-menu-item"><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+            {% if  user.is_authenticated %}
+                <li class="pure-menu-item"><a href="{% url 'ver_perfil' %}">Perfil</a></li>
+                <li class="pure-menu-item"><a href="{% url 'logout' %}">Logout</a></li>
+            {% endif %}
         </ul>
     </div>
 </div>
