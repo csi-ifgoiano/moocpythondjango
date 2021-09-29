@@ -15,6 +15,15 @@
                     <h4 class="viewlink">Média para aprovação {{curso.media_aprovacao|linebreaksbr}}</h4>
                     <h4 class="viewlink"><a target="_blank" href="{{curso.ppc|linebreaksbr}}">PPC</a> </h4>
                     <h4 class="content-subhead">{{curso.ch_total}} horas</h4>
+                    {% if user.is_authenticated %}
+                        <p>
+                            <a href="{% url 'efetuar_matricula' %}" class="pure-button primary-button">Matricule-se</a>
+                        </p>
+                    {% else %}
+                    <p>
+                        <a href="{% url 'cadastro' %}" class="pure-button primary-button">Cadastre-se para Matricular</a>
+                    </p>
+                    {% endif %}
                     <p>
                         <a href="{% url 'listar_cursos' %}" class="pure-button primary-button">Voltar</a>
                     </p>

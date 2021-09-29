@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="conteudo ">
+    <form action="{% url 'efetuar_matricula' %}" method="POST" class=" center pure-u-1-3 pure-form pure-form-stacked">
+      {% csrf_token %}
+      <div class="pure-control-group">
+        <div class="pure-u-1 pure-u-md-1-3">
+          <label for="usuario"><b>Usuário</b></label>
+          <input type="text" class="pure-u-23-24" name="nome" placeholder="usuário" required>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-3">
+          <label for="cpf"><b>CPF</b></label>
+          <input type="text" class="pure-u-23-24" name="cpf" placeholder="000.000.000-00" required>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-3">
+          <label for="email"><b>Email</b></label>
+          <input type="email" class="pure-u-23-24" name="email" placeholder="nome@email.com" required>
+        </div>
+        <div class="pure-u-1 pure-u-md-1-3">
+          <label for="password"><b>Senha</b></label>
+          <input type="password" class="pure-u-23-24" name="password" placeholder="Digite sua senha" required>
+        </div>
+        <div class="pure-controls">
+          <div class="pure-u-1-3 text-center">
+            <button class="pure-button pure-button-primary" type="submit">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+{% endblock %}

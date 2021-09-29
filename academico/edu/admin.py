@@ -47,7 +47,7 @@ class CursoAdmin(admin.ModelAdmin):
 
 admin.site.register(Curso, CursoAdmin)
 
-class AlunoAdmin(admin.ModelAdmin):
+class AlunoMatriculaAdmin(admin.ModelAdmin):
     list_display = ('matricula', 'curso')
     list_filter = ('matricula', 'curso')
     search_fields = ('matricula', 'curso')
@@ -55,4 +55,4 @@ class AlunoAdmin(admin.ModelAdmin):
     form = AlunoMatriculaForm
     fieldsets = AlunoMatriculaForm.fieldsets
 
-admin.site.register(AlunoMatricula, AlunoAdmin)
+admin.site.register(AlunoMatricula, AlunoMatriculaAdmin)

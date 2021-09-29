@@ -75,7 +75,7 @@ class AlunoMatricula(models.Model):
     # dados da matrícula
     periodo_letivo = models.PositiveIntegerField(verbose_name='Período de Ingresso', choices=PERIODO_LETIVO_CHOICES)
     data_matricula = models.DateTimeField(verbose_name='Data da Matrícula', auto_now_add=True)
-    curso = models.ForeignKey('edu.Curso', verbose_name='Curso', related_name='matricula_edu_set', on_delete=models.CASCADE, null=False, blank=False)
+    curso = models.ForeignKey('edu.Curso', verbose_name='Curso', related_name='matricula_edu_set', on_delete=models.CASCADE, default='1')
 
 
     # TODO
@@ -89,3 +89,26 @@ class AlunoMatricula(models.Model):
 
     def get_nome(self):
         return self.pessoa_fisica.nome
+
+    class SequencialMatricula(models.Model):
+        prefixo = models.CharField(max_length=255)
+        contador = models.PositiveIntegerField()
+
+        @staticmethod
+        def proximo_numero(prefixo):
+            qs_sequencial = SequencialMatricula.objects.filter(prefixo=prefixo)
+            if qs_sequencial.exists():
+                sequencial = qs_sequencial[0]
+                contador = sequencial.contador
+            else:
+                sequencial = SequencialMatricula()
+                sequencial.prefixo = prefixo
+                contador = 1
+            sequencial.contador = contador + 1
+            sequencial.save()
+            numero = '000000000{}'.format(contador)
+            matricula = '{}{}'.format(prefixo, numero[-4:])
+            if AlunoMatricula.objects.filter(matricula=matricula).exists():
+                return SequencialMatricula.proximo_numero(prefixo)
+            else:
+                return matricula

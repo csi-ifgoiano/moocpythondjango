@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from .models import Curso
-from django.shortcuts import get_object_or_404
-from .forms import CursoForm
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
+from .models import Curso, AlunoMatricula
+from comum.models import Aluno
+from .forms import CursoForm, AlunoMatriculaForm
 
 
 # Create your views here.
@@ -14,13 +15,13 @@ def cursos_detail(request, pk):
     curso = get_object_or_404(Curso, pk=pk)
     return render(request, 'curso.html', {'curso': curso})
 
-def efetuar_matricula(request, cpf_candidado=None):
+def efetuar_matricula(request, aluno_id=None):
     title = 'Matrícula Institucional'
     candidato_vaga = None
     initial = None
-    #alunos = Aluno.objects.none()
+    alunos = AlunoMatricula.objects.none()
     cpf = request.POST.get('cpf')
-    form = EfetuarMatriculaForm(request, cpf, data=request.POST or None, initial=initial, files=request.FILES or None)
+    form = AlunoMatriculaForm(request, cpf, data=request.POST or None, initial=initial, files=request.FILES or None)
     if form.is_valid():
         aluno = form.processar()
-    pass
+        return HttpResponse("Dados inseridos com sucesso!")

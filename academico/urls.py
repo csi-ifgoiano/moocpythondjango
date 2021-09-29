@@ -22,5 +22,3 @@ urlpatterns = [
     path('', include('comum.urls')),
     path('edu/', include('edu.urls')),
 ]
-#path('', comum_views.home),
-#     re_path(r'^admin/', include('admin.site.urls', 'admin'), namespace='admin'),
