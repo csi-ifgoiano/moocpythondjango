@@ -5,7 +5,7 @@
     <form action="{% url 'efetuar_matricula' %}" method="POST" class=" center pure-u-1-3 pure-form pure-form-stacked">
       <div class="pure-control-group">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.as_table }}
         <button class="pure-button pure-button-primary" type="submit">Cadastrar</button>
         <div class="pure-controls">
           <div class="pure-u-2-3 text-center">

@@ -4,7 +4,6 @@ from django.conf import settings
 #from djtools.utils import OverwriteStorage
 #from comum.models import
 
-# Create your models here.
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from decimal import Decimal
@@ -51,7 +50,7 @@ class AlunoMatricula(models.Model):
 
     # Dados Pessoais
     pessoa_fisica = models.ForeignKey('comum.Aluno', verbose_name='Aluno', related_name='aluno_edu_set', on_delete=models.CASCADE)
-    matricula = models.CharField('Matrícula', max_length=255, db_index=True)
+    matricula = models.CharField('Matrícula', max_length=255, null=True, blank=True)
     estado_civil = models.CharField(choices=ESTADO_CIVIL_CHOICES, null=True, max_length=20)
     # endereco
     logradouro = models.CharField(max_length=255, verbose_name='Logradouro', null=True)
@@ -90,25 +89,31 @@ class AlunoMatricula(models.Model):
     def get_nome(self):
         return self.pessoa_fisica.nome
 
-    class SequencialMatricula(models.Model):
-        prefixo = models.CharField(max_length=255)
-        contador = models.PositiveIntegerField()
 
-        @staticmethod
-        def proximo_numero(prefixo):
-            qs_sequencial = SequencialMatricula.objects.filter(prefixo=prefixo)
-            if qs_sequencial.exists():
-                sequencial = qs_sequencial[0]
-                contador = sequencial.contador
-            else:
-                sequencial = SequencialMatricula()
-                sequencial.prefixo = prefixo
-                contador = 1
-            sequencial.contador = contador + 1
-            sequencial.save()
-            numero = '000000000{}'.format(contador)
-            matricula = '{}{}'.format(prefixo, numero[-4:])
-            if AlunoMatricula.objects.filter(matricula=matricula).exists():
-                return SequencialMatricula.proximo_numero(prefixo)
-            else:
-                return matricula
+class SequencialMatricula(models.Model):
+    prefixo = models.CharField(max_length=255)
+    contador = models.PositiveIntegerField()
+
+    class Meta:
+        verbose_name = 'Sequencial de Matricula'
+        verbose_name_plural = 'Sequencial de Matriculas'
+        app_label = 'edu'
+
+    @staticmethod
+    def proximo_numero(prefixo):
+        qs_sequencial = SequencialMatricula.objects.filter(prefixo=prefixo)
+        if qs_sequencial.exists():
+            sequencial = qs_sequencial[0]
+            contador = sequencial.contador
+        else:
+            sequencial = SequencialMatricula()
+            sequencial.prefixo = prefixo
+            contador = 1
+        sequencial.contador = contador + 1
+        sequencial.save()
+        numero = '000000000{}'.format(contador)
+        matricula = '{}{}'.format(prefixo, numero[-4:])
+        if AlunoMatricula.objects.filter(matricula=matricula).exists():
+            return SequencialMatricula.proximo_numero(prefixo)
+        else:
+            return matricula

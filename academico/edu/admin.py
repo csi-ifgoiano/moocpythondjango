@@ -1,10 +1,8 @@
 from django.contrib import admin
 from django.http import HttpResponseRedirect
 from .forms import CursoForm, AlunoMatriculaForm
-from .models import (
-    Curso,
-    AlunoMatricula
-)
+from .models import Curso, AlunoMatricula
+
 # Register your models here.
 class CursoAdmin(admin.ModelAdmin):
     list_display = ('codigo', 'descricao', 'conteudo', 'ativo')
@@ -56,3 +54,7 @@ class AlunoMatriculaAdmin(admin.ModelAdmin):
     fieldsets = AlunoMatriculaForm.fieldsets
 
 admin.site.register(AlunoMatricula, AlunoMatriculaAdmin)
+
+# class SequencialMatriculaAdmin(admin.ModelAdmin):
+#     list_display = ('prefixo', 'contador')
+# admin.site.register(SequencialMatricula, SequencialMatriculaAdmin)
