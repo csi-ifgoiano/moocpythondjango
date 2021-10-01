@@ -59,7 +59,7 @@ class AlunoMatriculaForm(forms.ModelForm):
 
     class Meta:
         model = AlunoMatricula
-        exclude = ()
+        exclude = ('pessoa_fisica', 'matricula',)
 
         def __init__(self, *args, **kwargs):
             super(AlunoMatriculaForm, self).__init__(*args, **kwargs)
