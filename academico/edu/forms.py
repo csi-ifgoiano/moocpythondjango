@@ -59,7 +59,7 @@ class AlunoMatriculaForm(forms.ModelForm):
 
     class Meta:
         model = AlunoMatricula
-        exclude = ('pessoa_fisica', 'matricula',)
+        exclude = ('pessoa_fisica', 'matricula', )
 
         def __init__(self, *args, **kwargs):
             super(AlunoMatriculaForm, self).__init__(*args, **kwargs)
@@ -98,8 +98,8 @@ class AlunoMatriculaForm(forms.ModelForm):
         alunomatricula.uf_emissao_rg = self.cleaned_data['uf_emissao_rg']
         # dados da matrícula
         alunomatricula.periodo_letivo = self.cleaned_data['periodo_letivo']
-        # alunomatricula.curso = curso
         alunomatricula.curso = curso
+        # salva a matricula para o código do curso compor o prefixo da matricula *pode fazer de outra forma pegando da self.instance.curso
         alunomatricula.save()
         ano_corrente = datetime.date.today().year
         prefixo = '{}{}{}'.format(ano_corrente, alunomatricula.periodo_letivo, curso.codigo)

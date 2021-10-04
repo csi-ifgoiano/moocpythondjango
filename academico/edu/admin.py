@@ -46,8 +46,8 @@ class CursoAdmin(admin.ModelAdmin):
 admin.site.register(Curso, CursoAdmin)
 
 class AlunoMatriculaAdmin(admin.ModelAdmin):
-    list_display = ('matricula', 'curso')
-    list_filter = ('matricula', 'curso')
+    list_display = ('matricula', 'curso', 'data_matricula')
+    list_filter = ('pessoa_fisica', 'matricula', 'curso')
     search_fields = ('matricula', 'curso')
     list_per_page = 15
     form = AlunoMatriculaForm
