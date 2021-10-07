@@ -16,14 +16,20 @@ class CursoAdmin(admin.ModelAdmin):
             'Identificação',
             {
                 'fields': (
-                    ('ativo',),
                     ('descricao',),
                     ('ch_total',),
                     ('conteudo',),
                 )
             },
         ),
-        # ('Dados da Criação', {'fields': ('ano_letivo', 'periodo_letivo', ('data_inicio', 'data_fim'), 'ativo')}),
+        (
+            'Dados da Criação',
+            {
+                'fields': (
+                    ('ativo'),
+                )
+            }
+        ),
         # ('Coordenação', {'fields': ('coordenador')}),
         (
             'Dados Gerais',
@@ -41,7 +47,7 @@ class CursoAdmin(admin.ModelAdmin):
 
     def response_add(self, request, obj):
         self.message_user(request, 'Curso cadastrado com sucesso!')
-        return HttpResponseRedirect('/edu/curso/{}/'.format(obj.pk))
+        return HttpResponseRedirect('/cursos/{}/'.format(obj.pk))
 
 admin.site.register(Curso, CursoAdmin)
 

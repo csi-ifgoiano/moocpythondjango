@@ -20,6 +20,7 @@ def efetuar_matricula(request):
     if request.method == 'POST':
         form = AlunoMatriculaForm(request.POST, instance=request.user.aluno)
         curso_id = request.POST.get('curso')
+        request.user.username
         # aluno = get_object_or_404(Aluno, user=usuario_id)
         aluno_id = request.user.aluno.pk
         if form.is_valid():
@@ -27,7 +28,7 @@ def efetuar_matricula(request):
             return render(request, 'comprovantematricula.html', {'form':form})
             # return redirect('Aluno com cpf {} matriculado com sucesso!'.format(aluno.cpf))
     else:
-        form = AlunoMatriculaForm(instance=request.user.aluno)
+        form = AlunoMatriculaForm(request.POST)
     return render(request, 'matricula.html', {'form':form})
 
 @login_required()
